@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1787947147717,
+    "cliente": "Eduardo Vicente",
+    "total": 299,
+    "enderecoEntrega": {
+      "logradouro": "N/A",
+      "bairro": "N/A",
+      "cidade": "Custódia",
+      "uf": "PE",
+      "cep": "56640000"
+    },
+    "produtos": [
+      "Teclado Mecânico RGB [Periféricos] - R$ 250.00 | Peso: 0.8kg",
+      "Suporte para Notebook [Acessórios] - R$ 49.00"
+    ],
+    "data": "2026-08-28T19:59:07.718Z"
+  },
+  {
+    "id": 1787948932964,
+    "cliente": "priscila",
+    "total": 1149,
+    "enderecoEntrega": {
+      "logradouro": "N/A",
+      "bairro": "N/A",
+      "cidade": "Custódia",
+      "uf": "PE",
+      "cep": "56640000"
+    },
+    "produtos": [
+      "Teclado Mecânico RGB [Periféricos] - R$ 250.00 | Peso: 0.8kg",
+      "tablet [aparelhos] - R$ 899.00"
+    ],
+    "data": "2026-08-28T20:28:52.965Z"
+  }
+]
