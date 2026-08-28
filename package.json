@@ -1,0 +1,10 @@
+{
+  "name": "gestao-vendas-unyleya",
+  "version": "2.0.0",
+  "description": "Sistema de Gestao de Vendas - Parte 2 (Node.js & POO)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "ISC"
+}
