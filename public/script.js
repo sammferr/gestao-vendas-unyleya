@@ -8,7 +8,6 @@ async function carregarProdutos() {
     
     const container = document.getElementById("catalogo-produtos") || document.body;
     
-    // Se houver uma div de catálogo no seu HTML, atualiza o conteúdo
     const listaExistente = document.getElementById("lista-produtos-api");
     if (listaExistente) listaExistente.remove();
 
@@ -16,7 +15,12 @@ async function carregarProdutos() {
     divLista.id = "lista-produtos-api";
     divLista.style.marginTop = "20px";
 
-    divLista.innerHTML = "<h2>📦 Catálogo de Produtos (API REST)</h2>";
+    divLista.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 style="margin: 0;">📦 Catálogo de Produtos (API REST)</h2>
+        <button onclick="cadastrarProduto()" style="background: #27ae60; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-weight: bold;">+ Novo Produto</button>
+      </div>
+    `;
 
     produtos.forEach(prod => {
       const item = document.createElement("div");
@@ -29,7 +33,7 @@ async function carregarProdutos() {
         <h3>${prod.nome}</h3>
         <p><strong>Categoria:</strong> ${prod.categoria}</p>
         <p><strong>Preço:</strong> R$ ${Number(prod.preco).toFixed(2)}</p>
-        <button onclick="deletarProduto(${prod.id})" style="background:#e74c3c; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:3px;">Excluir</button>
+        <button onclick="deletarProduto(${prod.id})" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Excluir</button>
       `;
       divLista.appendChild(item);
     });
