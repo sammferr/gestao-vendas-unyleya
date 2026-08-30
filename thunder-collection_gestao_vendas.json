@@ -1,0 +1,90 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "Gestão de Vendas API",
+  "collectionId": "gestao-vendas-unyleya",
+  "dateExported": "2026-08-30",
+  "version": "1.1",
+  "folders": [
+    {
+      "_id": "folder_auth",
+      "name": "Autenticação",
+      "containerId": ""
+    },
+    {
+      "_id": "folder_cat",
+      "name": "Categorias",
+      "containerId": ""
+    },
+    {
+      "_id": "folder_prod",
+      "name": "Produtos",
+      "containerId": ""
+    }
+  ],
+  "requests": [
+    {
+      "_id": "req_registrar",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_auth",
+      "name": "Registrar Usuário",
+      "url": "http://localhost:3000/api/auth/registrar",
+      "method": "POST",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"José Samuel\",\n  \"email\": \"samuel@email.com\",\n  \"senha\": \"123456\",\n  \"role\": \"admin\"\n}"
+      }
+    },
+    {
+      "_id": "req_login",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_auth",
+      "name": "Login",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"samuel@email.com\",\n  \"senha\": \"123456\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_cat",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_cat",
+      "name": "Listar Categorias",
+      "url": "http://localhost:3000/api/categorias",
+      "method": "GET"
+    },
+    {
+      "_id": "req_criar_cat",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_cat",
+      "name": "Criar Categoria",
+      "url": "http://localhost:3000/api/categorias",
+      "method": "POST",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Periféricos\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_prod",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_prod",
+      "name": "Listar Produtos Paginados",
+      "url": "http://localhost:3000/api/produtos?page=1&limit=10",
+      "method": "GET"
+    },
+    {
+      "_id": "req_criar_prod",
+      "colId": "gestao-vendas-unyleya",
+      "containerId": "folder_prod",
+      "name": "Criar Produto",
+      "url": "http://localhost:3000/api/produtos",
+      "method": "POST",
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nome\": \"Teclado Mecânico RGB\",\n  \"descricao\": \"Switch Blue com iluminação RGB\",\n  \"preco\": 250,\n  \"estoque\": 15,\n  \"categoria\": \"6a9392295c081685e56bf26a\"\n}"
+      }
+    }
+  ]
+}

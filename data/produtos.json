@@ -10,5 +10,23 @@
     "nome": "Mouse Gamer 16000 DPI",
     "preco": 120,
     "categoria": "Periféricos"
+  },
+  {
+    "id": 1787954552330,
+    "nome": "Iphone 17 Pro Max 256gb ",
+    "preco": 7799,
+    "categoria": "smartphones"
+  },
+  {
+    "id": 1787954798763,
+    "nome": "Suporte Notebook",
+    "preco": 50,
+    "categoria": "acessorios"
+  },
+  {
+    "id": 1787955407158,
+    "nome": "S26 Ultra 1 TB",
+    "preco": 10099,
+    "categoria": "Smatphones"
   }
 ]
