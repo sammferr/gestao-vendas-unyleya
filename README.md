@@ -1,139 +1,148 @@
-Markdown
-# Sistema de Gestão de Vendas — Parte 3 (API REST & Padrão MVC)
-
-Evolução do sistema de gestão de vendas para uma arquitetura Back-End robusta em **Node.js** com **Express**, organizada no padrão arquitetural **MVC (Model-View-Controller)**. A aplicação conta com **CRUD completo** de produtos, persistência de dados em arquivos JSON e integração assíncrona entre o Front-End e a API.
+# 🛒 Marketplace API — Sistema de Gestão de Vendas
+> **Atividade 4 (Final)** — Disciplina Backend
+> **Desenvolvedor:** José Samuel Ferreira da Silva  
+> **Repositório:** [github.com/sammferr/gestao-vendas-unyleya](https://github.com/sammferr/gestao-vendas-unyleya/tree/unidade-4)  
+> **Vídeo de Demonstração:** [Assista no YouTube](https://youtu.be/mcGD-c0JkY0)
 
 ---
 
-## 📁 Estrutura do Projeto (Arquitetura MVC)
+## Sobre o Projeto
+
+A **Marketplace API** é uma solução completa de backend para comércio eletrônico desenvolvida com **Node.js**, **Express** e **MongoDB Atlas**. A aplicação adota uma arquitetura em camadas estruturada com os padrões **MVC + Services**, garantindo isolamento de responsabilidades, validações de regras de negócio, persistência de dados em nuvem, controle de acesso baseado em perfis (RBAC) com **JWT** e documentação interativa com **Swagger (OpenAPI 3.0)**.
+
+---
+
+## Vídeo de Apresentação
+
+Confira a demonstração completa da arquitetura do projeto e o teste dos endpoints no Swagger UI:
+👉 **[Assistir no YouTube (https://youtu.be/mcGD-c0JkY0)](https://youtu.be/mcGD-c0JkY0)**
+
+---
+
+## Tecnologias Utilizadas
+
+* **Runtime:** Node.js (v18+)
+* **Framework Web:** Express.js
+* **Banco de Dados:** MongoDB Atlas (Nuvem)
+* **ODM:** Mongoose
+* **Autenticação & Segurança:** JSON Web Tokens (JWT) e Bcrypt.js (hash de senhas)
+* **Documentação:** Swagger UI Express & Swagger JSDoc (OpenAPI 3.0)
+* **Testes de API:** Thunder Client (Coleção inclusa no projeto)
+* **Desenvolvimento:** Nodemon & Dotenv
+
+---
+
+## 📂 Arquitetura do Projeto
 
 ```text
-├── data/
-│   ├── produtos.json          # Base de dados em JSON (Produtos)
-│   └── pedidos.json           # Base de dados em JSON (Pedidos)
-├── public/
-│   ├── index.html             # Interface Web (Front-End)
-│   ├── script.js              # Consumo da API via Fetch API
-│   └── style.css              # Estilização da interface
+gestao-vendas-unyleya/
 ├── src/
+│   ├── config/
+│   │   ├── db.js             # Conexão com MongoDB Atlas
+│   │   └── swagger.js        # Configuração OpenAPI 3.0
 │   ├── controllers/
-│   │   └── produtoController.js   # Lógica de controle e respostas HTTP
+│   │   ├── authController.js     # Gerenciamento de login/registro
+│   │   ├── categoryController.js # Controle de categorias
+│   │   ├── productController.js  # Controle de produtos
+│   │   ├── cartController.js     # Controle do carrinho
+│   │   └── orderController.js    # Controle de pedidos
+│   ├── middlewares/
+│   │   └── authMiddleware.js # Validação de token JWT e permissões por role
 │   ├── models/
-│   │   └── produtoModel.js        # Regras de negócio e operações de I/O em JSON
-│   └── routes/
-│       └── produtoRoutes.js       # Mapeamento dos endpoints REST
-├── server.js                  # Ponto de entrada da aplicação Express
-├── package.json               # Dependências do projeto (Express, Cors, Nodemon)
-└── README.md                  # Documentação completa
-🚀 Como Iniciar a Aplicação
+│   │   ├── User.js           # Schema de Usuários
+│   │   ├── Category.js       # Schema de Categorias
+│   │   ├── Product.js        # Schema de Produtos
+│   │   ├── Cart.js           # Schema de Carrinho de Compras
+│   │   └── Order.js          # Schema de Pedidos
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── categoryRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── cartRoutes.js
+│   │   └── orderRoutes.js
+│   └── services/
+│       ├── cartService.js    # Regras de negócio e totais do carrinho
+│       └── orderService.js   # Regras de checkout e controle atômico de estoque
+├── .env.example              # Modelo de variáveis de ambiente
+├── .gitignore
+├── package.json
+├── server.js                 # Ponto de entrada da aplicação
+├── thunder-collection_gestao_vendas.json # Coleção de testes para Thunder Client
+└── README.md
+📑 Principais Funcionalidades & Endpoints
+A documentação interativa completa fica disponível na rota /api-docs.
+
+1. Autenticação (/api/auth)
+POST /api/auth/registrar — Criação de novo usuário com senha criptografada via bcryptjs.
+
+POST /api/auth/login — Autenticação de credenciais e geração do token JWT.
+
+GET /api/auth/perfil — Consulta dos dados do usuário autenticado (Rota Protegida).
+
+2. Categorias (/api/categorias)
+GET /api/categorias — Listagem geral de categorias.
+
+POST /api/categorias — Cadastro de categoria (Apenas Admin).
+
+DELETE /api/categorias/{id} — Exclusão de categoria (Apenas Admin).
+
+3. Produtos (/api/produtos)
+GET /api/produtos — Consulta paginada de produtos com categorias populadas (populate).
+
+POST /api/produtos — Cadastro de novo produto com saldo de estoque e preço (Apenas Admin).
+
+4. Carrinho de Compras (/api/carrinho)
+GET /api/carrinho — Retorna o carrinho do usuário com cálculo automático do valor total.
+
+POST /api/carrinho/adicionar — Adiciona produto com validação prévia de estoque.
+
+DELETE /api/carrinho/remover/{produtoId} — Remove item específico do carrinho.
+
+5. Pedidos & Checkout (/api/pedidos)
+POST /api/pedidos — Checkout: converte o carrinho em pedido, debita o estoque dos produtos e limpa o carrinho.
+
+GET /api/pedidos/meus-pedidos — Histórico de pedidos do usuário autenticado.
+
+GET /api/pedidos — Listagem global de todos os pedidos da plataforma (Apenas Admin).
+
+PATCH /api/pedidos/{id}/status — Atualização de status do pedido (pendente, pago, enviado, entregue, cancelado) (Apenas Admin).
+
+⚙️ Como Executar o Projeto Localmente
 Pré-requisitos
-Node.js (versão 18 ou superior) instalado.
+Node.js instalado (v18+)
+
+Cluster MongoDB Atlas configurado
 
 Passo a Passo
-Instalar as dependências:
+Clone o repositório:
+
+Bash
+git clone -b unidade-4 [https://github.com/sammferr/gestao-vendas-unyleya.git](https://github.com/sammferr/gestao-vendas-unyleya.git)
+cd gestao-vendas-unyleya
+Instale as dependências:
 
 Bash
 npm install
-Iniciar o servidor em modo de desenvolvimento:
+Configure as Variáveis de Ambiente:
+Crie um arquivo .env na raiz do projeto seguindo o modelo:
+
+Snippet de código
+PORT=3000
+MONGO_URI=sua_string_de_conexao_mongodb_atlas
+JWT_SECRET=sua_chave_secreta_jwt
+Inicie o servidor de desenvolvimento:
 
 Bash
 npm run dev
-Acessar no navegador:
+Acesse a documentação:
+Abra o navegador em http://localhost:3000/api-docs para testar todos os endpoints interativamente.
 
-Aplicação Front-End: http://localhost:3000
+🧪 Testes Manuais com Thunder Client
+Na raiz do projeto está disponível o arquivo thunder-collection_gestao_vendas.json. Para utilizá-lo:
 
-Endpoint REST (JSON): http://localhost:3000/api/produtos
+Abra a extensão Thunder Client no VS Code;
 
-📡 Endpoints da API REST e Exemplos
-1. Listar todos os produtos
-Método: GET
+Vá na aba Collections > Import;
 
-URL: /api/produtos
+Selecione o arquivo exportado para carregar todas as requisições pré-configuradas.
 
-Resposta (200 OK):
-
-JSON
-[
-  {
-    "id": 1,
-    "nome": "Teclado Mecânico RGB",
-    "preco": 250,
-    "categoria": "Periféricos"
-  },
-  {
-    "id": 2,
-    "nome": "Mouse Gamer 16000 DPI",
-    "preco": 120,
-    "categoria": "Periféricos"
-  }
-]
-2. Buscar produto por ID
-Método: GET
-
-URL: /api/produtos/1
-
-Resposta (200 OK):
-
-JSON
-{
-  "id": 1,
-  "nome": "Teclado Mecânico RGB",
-  "preco": 250,
-  "categoria": "Periféricos"
-}
-3. Cadastrar produto
-Método: POST
-
-URL: /api/produtos
-
-Corpo da Requisição (JSON):
-
-JSON
-{
-  "nome": "Monitor Gamer 144Hz",
-  "preco": 1200.00,
-  "categoria": "Monitores"
-}
-Resposta (201 Created):
-
-JSON
-{
-  "id": 1787948000000,
-  "nome": "Monitor Gamer 144Hz",
-  "preco": 1200,
-  "categoria": "Monitores"
-}
-4. Atualizar produto
-Método: PUT
-
-URL: /api/produtos/1
-
-Corpo da Requisição (JSON):
-
-JSON
-{
-  "nome": "Teclado Mecânico RGB Sem Fio",
-  "preco": 299.90
-}
-Resposta (200 OK):
-
-JSON
-{
-  "id": 1,
-  "nome": "Teclado Mecânico RGB Sem Fio",
-  "preco": 299.9,
-  "categoria": "Periféricos"
-}
-5. Deletar produto
-Método: DELETE
-
-URL: /api/produtos/1
-
-Resposta (200 OK):
-
-JSON
-{
-  "mensagem": "Produto removido com sucesso."
-}
-🔗 Link do Repositório
-GitHub (Branch Unidade 3): https://github.com/sammferr/gestao-vendas-unyleya/tree/unidade-3
